@@ -9,32 +9,29 @@ pattern = '(\w+):([\w#]+)'
 passport_values = [re.findall(pattern, passport_section) for passport_section in passports]
         
 def validate_field(key: str, value: str):
-    isValid = False
     if (key == "byr"):
-        isValid = 1920 <= int(value) <= 2002
+        return 1920 <= int(value) <= 2002
     elif (key == "iyr"):
-        isValid = 2010 <= int(value) <= 2020
+        return 2010 <= int(value) <= 2020
     elif (key == "eyr"):
-        isValid = 2020 <= int(value) <= 2030
+        return 2020 <= int(value) <= 2030
     elif (key == "hgt"):
         if (value.endswith("cm")):
-            isValid = 150 <= int(value.rstrip("cm")) <= 193
+            return 150 <= int(value.rstrip("cm")) <= 193
         elif (value.endswith("in")):
-            isValid = 59 <= int(value.rstrip("in")) <= 76
+            return 59 <= int(value.rstrip("in")) <= 76
         else:
-            isValid = False
+            return False
     elif (key == "hcl"):
-        isValid = re.match("""^#[0-9a-f]{6}$""", value) != None
+        return re.match("""^#[0-9a-f]{6}$""", value) != None
     elif (key == "ecl"):
-        isValid = value in ("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
+        return value in ("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
     elif (key == "pid"):
-        isValid = re.match("""^\d{9}$""", value) != None
+        return re.match("""^\d{9}$""", value) != None
     elif (key == "cid"):
-        isValid = True
+        return True
     else:
         raise ValueError(f"key not found: {key}")
-
-    return isValid
 
 
 valid_count_part_one = sum(all (required_fields in dict(passport_value) for required_fields in ("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid")) 
