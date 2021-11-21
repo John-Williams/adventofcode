@@ -1,5 +1,4 @@
 import data
-from dataclasses import dataclass
 import re
 
 passports = data.input().split('\n\n')
